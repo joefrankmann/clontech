@@ -1,0 +1,62 @@
+{% extends "ndx/base.html" %}
+{% load pipeline result ndx_ui %}
+{% block results_link %}{% endblock results_link %}
+{% block content %}
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table data-table"
+      data-page-length="25"
+      data-order='[[0, "desc"]]'
+      data-server-side="true"
+      data-columns='[
+        {"data": "created_at", "name": "created_at"},
+        {% if perms.ndx_auth.view_user_data %}
+          {"data": "uploader_email", "name": "uploader_email"},
+        {% endif %}
+        {"data": "assay_type", "name": "assay_type"},
+        {"data": "sample_name", "name": "sample_name"},
+        {"data": "device_make", "name": "device_make"},
+        {"data": "interpretation", "orderable": false},
+        {"data": "action", "orderable": false}
+        ]'
+      >
+      <thead>
+        <tr>
+          <th class="date-column" data-allow-filter="false">{% field_title 'created_at' %}</th>
+          {% if perms.ndx_auth.view_user_data %}
+            <th>{% field_title 'uploader_email'%}</th>
+          {% endif %}
+          <th>{% field_title 'assay_type' %}</th>
+          <th>{% field_title 'sample_name' %}</th>
+          <th>{% field_title 'device_make' %}</th>
+          <th class="result-column" data-allow-filter="false">{% field_title 'interpretation' %}</th>
+          <th class="action-column" data-allow-filter="false"></th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th class="date-column" data-allow-filter="false">{% field_title 'created_at' %}</th>
+          {% if perms.ndx_auth.view_user_data %}
+            <th>{% field_title 'uploader_email'%}</th>
+          {% endif %}
+          <th>{% field_title 'assay_type' %}</th>
+          <th>{% field_title 'sample_name' %}</th>
+          <th>{% field_title 'device_make' %}</th>
+          <th class="result-column" data-allow-filter="false">{% field_title 'interpretation' %}</th>
+          <th class="action-column" data-allow-filter="false"></th>
+        </tr>
+      </tfoot>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <a href = "{% url 'ndx_result:result-csv-download' %}">
+    <div class="col-xs-12 text-right">
+      <button class="btn btn-default">
+      <span class="button-text">Download CSV</span>
+      <span class="material-icons button-icons">&#xE315;</span>
+      </button>
+    </div>
+  </a>
+</div>
+{% endblock content %}

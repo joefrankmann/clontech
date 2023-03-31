@@ -1,0 +1,36 @@
+.clear_button {
+    display: inline-block;
+    visibility: hidden
+}
+
+#form-info {
+    margin: 10px;
+}
+
+#error {
+    margin: 10px;
+    color: red;
+}
+
+#result-csv-button {
+    margin-top: 10px;
+}
+
+/* This is hidden by default */
+
+#datepicker-fields-group {
+    transition: max-height 0.25s ease-out;
+    max-height: 0;
+    overflow: hidden;
+}
+
+#datepicker-fields-group.active {
+    max-height: 100px;
+    transition: max-height 0.25s ease-in;
+}
+
+/* aligns the text with the text in other fields */
+input[type="date"] {
+    line-height: 34px;
+    padding: 0 0 0 14px;
+}

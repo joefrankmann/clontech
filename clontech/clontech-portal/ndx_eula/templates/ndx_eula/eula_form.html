@@ -1,0 +1,16 @@
+{% extends "ndx/base.html" %}
+{% load ndx_ui eula pipeline  %}
+
+{% block content %}
+{% for message in messages %}
+  <span class="alert-success">{{message}}</span>
+{% endfor %}
+<div class="row-xs-12">
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="col-xs-12">
+      {{form.as_p}}
+    </div>
+    <input class="btn btn-default" type="submit" value="Save">
+  </form>
+</div>
+{% endblock content %}

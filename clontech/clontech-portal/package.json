@@ -1,0 +1,27 @@
+{
+  "name": "clontech-portal",
+  "version": "0.0.1",
+  "devDependencies": {
+    "uglify-js": "^3.4.9",
+    "yuglify": "^2.0.0"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "babel-preset-env": "^1.7.0",
+    "bootstrap": "^3.3.7",
+    "datatables.net": "^1.10.19",
+    "datatables.net-bs": "^1.10.19",
+    "distinct-colors": "^1.0.4",
+    "jquery": "^3.3.1",
+    "jquery-ui-dist": "^1.12.1",
+    "material-design-icons": "^3.0.1"
+  },
+  "scripts": {
+    "babel": "babel",
+    "yuglify": "yuglify",
+    "uyglifyjs": "uglifyjs"
+  }
+}

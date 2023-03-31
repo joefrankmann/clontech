@@ -1,0 +1,41 @@
+{% extends "ndx/base.html" %}
+{% load ndx_ui batch pipeline  %}
+
+{% block content %}
+<div class="row spaced-row">
+  <form action="." method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="col-md-10 col-lg-11">
+      {{form.non_field_errors}}
+      <p>{{form.lot_no.label_tag}}  {{form.lot_no}}  {{form.lot_no.errors}}</p>
+      <p>{{form.assay_type.label_tag}}  {{form.assay_type}}  {{form.assay_type.errors}}</p>
+      <p>{{form.unit.label_tag}}  {{form.unit}}  {{form.unit.errors}}</p>
+      <p>{{form.valid_from.label_tag}}  {{form.valid_from}}  {{form.valid_from.errors}}</p>
+      <p>{{form.expires.label_tag}}  {{form.expires}} 
+        <span class="helptext">{{form.expires.help_text}}</span>
+        {{form.expires.errors}}
+      </p>
+      <p>{{form.is_active.errors}}  {{form.is_active.label_tag}}  {{form.is_active}} 
+        <span class="helptext">{{form.is_active.help_text}}</span>
+      </p>
+    </div>
+    <div class="col-md-2 col-lg-1">
+      {% if batch.data_matrix %}
+        <img alt="Lot number data matrix" src="{{batch.data_matrix.url}}"
+          width="{{batch.data_matrix_width}}" height="{{batch.data_matrix_height}}" />
+      {% endif %}
+    </div>
+    <div class="clearfix"></div>
+    <h2>Parameters</h2>
+    <div class="col-xs-12">
+      {{inlines.0.as_p}}
+    </div>
+    <div class="clearfix"></div>
+    <h2>Comments</h2>
+    <div class="col-xs-12">
+        <p>{{form.comments.errors}}  {{form.comments}}</p>
+        <input class="btn btn-default" type="submit" value="Save">
+    </div>
+    <div class="clearfix"></div>
+  </form>
+</div>
+{% endblock content %}

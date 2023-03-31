@@ -1,0 +1,36 @@
+{% extends "ndx/base.html" %}
+{% load auth ndx_ui %}
+
+{% block content %}
+  <h2>
+    {{user.get_full_name}}
+    <small>
+      {{user.email}}
+      {% if perms.ndx_auth.change_ndxuser or user == request.user %}
+        <a href="{{user.get_edit_url}}" class="parent-color">{% glyphicon "edit" "edit user profile" %}</a>
+        <a href="{{user.get_delete_url}}" class="parent-color">{% glyphicon "remove" "disable user account" %}</a>
+      {% endif %}
+    </small>
+  </h2>
+  {% if user.is_superuser %}
+    <h4>
+      Superuser
+    </h4>
+  {% else %}
+    <h4>
+      {{ user.user_type }}
+    </h4>
+  {% endif %}
+  {% if user.feedback_emails %}
+    <small>
+      This user receives feedback emails.
+    </small>
+  {% else %}
+    <small>
+      This user does not receive feedback emails.
+    </small>
+  {% endif %}
+  {% if user == request.user %}
+    <p class="text-right"><a href="{% url 'ndx_auth:password_change' %}">Change password</a></p>
+  {% endif %}
+{% endblock content %}

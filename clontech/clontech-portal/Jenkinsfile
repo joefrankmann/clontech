@@ -1,0 +1,121 @@
+@Library('ndxp')
+import com.novarumdx.ndxp.Constants;
+
+pipeline {
+  agent any;
+
+  stages {
+    stage('Update requirements.txt') {
+      when {
+        not { changeRequest() }
+        not { branch 'master' }
+        not { branch 'develop' }
+        expression {!params.deployPrelive}
+      }
+
+      steps {
+        timeout(time: 3, unit: 'MINUTES') {
+          withEnv(["REQS_VENV=${venv_dir('reqs')}",
+              "PIP_EXTRA_INDEX_URL=${Constants.PYPI}"]) {
+            sh '''#!/bin/bash -xe
+              python3 -m venv "$REQS_VENV"
+              export PATH="$REQS_VENV/bin:$PATH"
+              pip install --upgrade pip setuptools
+              pip install gunicorn
+              pip install --upgrade --editable ".[mysql, memcached]"
+              pip freeze \
+                | grep -iv 'ndx357_clontech_portal' \
+                | grep -iv 'pkg-resources==0.0.0' \
+                > requirements.txt
+            ''';
+            script {
+              ndx_git.if_changed_push_and_abort('requirements.txt');
+            }
+          }
+        }
+      }
+      post {
+        cleanup {
+          sh "rm -rf '${venv_dir('reqs')}'"
+        }
+      }
+    }
+
+    stage('Update package-lock.json') {
+      when {
+        not { changeRequest() }
+        not { branch 'master' }
+        not { branch 'develop' }
+        expression {!params.deployPrelive}
+      }
+
+      steps {
+        timeout(time: 3, unit: 'MINUTES') {
+          sh '''#!/bin/bash -xe
+            npm install
+          ''';
+          script {
+            ndx_git.if_changed_push_and_abort('package-lock.json');
+          }
+        }
+      }
+    }
+
+    stage('Test') {
+      when {
+        expression {!params.deployPrelive}
+      }
+      steps {
+        withEnv(["TEST_VENV=${venv_dir('tests')}",
+            "PIP_EXTRA_INDEX_URL=${Constants.PYPI}"]) {
+          timeout(time: 10, unit: 'MINUTES') {
+            script {
+              sh_rc = sh(script: '''#!/bin/bash -xe
+                python3 -m venv --clear "$TEST_VENV"
+                export PATH="$TEST_VENV/bin:$PATH"
+                pip install --upgrade pip setuptools
+                pip install -r requirements.txt --quiet 
+                pip install '.[tests]'
+                npm ci
+                tox --parallel--safe-build
+              ''', returnStatus: true);
+              if (sh_rc) {
+                currentBuild.result = 'FAILURE';
+              } else {
+                currentBuild.result = 'SUCCESS';
+              }
+            }
+          }
+        }
+        junit 'reports/*.xml';
+      }
+      post {
+        cleanup {
+          sh "rm -rf '${venv_dir('tests')}' node_modules"
+        }
+      }
+    }
+
+    stage('JIRA issue check') {
+      when { changeRequest() }
+      steps {
+        withEnv(["PIP_EXTRA_INDEX_URL=${Constants.PYPI}"]) {
+          timeout(time: 3, unit: 'MINUTES') {
+            jira_issue_check();
+          }
+        }
+      }
+    }
+
+  }
+  post {
+    always {
+      deleteDir();
+    }
+  }
+}
+
+def venv_dir(String name) {
+  "/tmp/${JOB_NAME}-${BUILD_NUMBER}-${name}"
+}
+

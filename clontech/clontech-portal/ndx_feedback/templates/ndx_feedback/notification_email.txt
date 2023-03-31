@@ -1,0 +1,15 @@
+{% load i18n auth %}{% autoescape off %}
+{% blocktrans %}
+You're receiving this email because your user account at {{ site_name }} is registered to receive notifications when a user enters feedback. The user {% endblocktrans %} {{ feedback.uploader_email }} {% blocktrans %} just gave us feedback! Here's what they thought{% endblocktrans %}:
+
+{% trans "rating"%}: {{ feedback.rating }}
+{% trans "comments"%}: {% trans feedback.comments %}
+
+{% blocktrans %}
+Kind Regards,
+
+The {{ site_name }} team
+{% endblocktrans %}
+
+
+{% endautoescape %}

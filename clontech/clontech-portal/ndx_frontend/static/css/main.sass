@@ -1,0 +1,422 @@
+$primary: #1781e0
+$secondary: #69007f
+$secondary-contrast: #fefffc
+$extra-light-gray: #ececed
+$light-gray: #737679
+$gray: #3e4042
+$dark-gray: #0e1012
+$extra-dark-gray: #040f18
+$cl-positive: #eb340d
+$cl-moderate: #ebb60d
+$cl-negative: #0deb2a
+
+body
+  font-size: 16px
+  font-family: HelveticaNeue, Helvetica, Arial, Sans-Serif
+  background-color: #fff
+
+form
+  h2
+    padding: 15px
+
+  label
+    min-width: inherit
+    width: 100%
+    max-width: 200px
+
+  input[type=text], input[type=date], input[type=datetime-local], select, textarea
+    min-width: inherit
+    width: 100%
+    max-width: 500px
+
+  span.helptext
+    font-style: italic
+    font-size: 90%
+    margin-left: 1rem
+
+.navbar-default
+  background: transparent
+  margin: 0 auto
+  border: none
+  min-height: 55px
+
+  .logo
+    height: 45px
+    width: 240px
+
+  .navbar-brand
+    color: #000
+
+  .navbar-nav
+    margin-left: 50px
+    > li > a
+      color: #000
+      font-size: 100%
+
+      &:hover, &:focus
+        color: #000
+
+    > li
+      border-bottom: 4px solid #fff
+
+    > li.active
+      border-bottom: 4px solid $primary
+
+      a
+        background: transparent
+        box-shadow: none
+        color: #000
+
+        &:hover, &:visited, &:active
+          background: transparent
+          box-shadow: none
+          color: #000
+
+
+.navbar-brand
+  padding: 8px 15px
+
+  > img
+    height: 100%
+    width: 100%
+
+.nav > li
+  padding: 0 1rem
+
+  a
+    padding: 6px 10px 10px
+
+    span
+      margin-right: 0.75rem
+      width: 30px
+      height: 30px
+      color: $secondary
+      position: relative
+      top: 8px
+
+      &:before
+        content: ''
+
+    &.audit
+      position: relative
+      top: 4px
+      padding: 10px 0
+
+a.parent-color
+  color: inherit
+
+small a.parent-color
+  margin-left: 2rem
+
+span
+  &.glyphicon-edit
+    color: orange
+
+  &.glyphicon-remove
+    color: firebrick
+
+.container
+  max-width: 1220px
+  padding-bottom: 5rem
+
+  small
+    display: inherit
+    margin: 2rem 0
+
+    &.breadcrumb
+      margin: 1rem 0
+
+  h1
+    font-size: 40px
+    font-weight: bold
+    color: $extra-dark-gray
+    display: inline-block
+    width: auto
+    line-height: 1.15
+
+  table.table
+    thead tr > th
+      font-size: 14px
+      border-bottom: 2px solid $dark-gray
+      border-top: none
+      padding: 12px 15px
+      text-align: center
+      color: $gray
+
+    tbody tr > td
+      font-size: 14px
+      border-top: none
+      border-bottom: 1px solid $gray
+      padding: 0
+      padding: 12px 15px
+
+    thead
+      .sorting:after, .sorting_asc:after
+        content: "\e252"
+
+      .sorting_desc:after
+        content: "\e253"
+
+      .sorting_asc, .sorting_desc
+        color: $primary
+
+        &:after
+          color: $primary
+
+    tbody tr > td
+      word-wrap: break-word
+      white-space: normal
+      max-width: 250px
+      
+
+    tbody tr > td .classification
+      width: 100%
+      border: 1px solid $dark-gray
+      color: $dark-gray
+      border-radius: 0.5rem
+      height: 33px
+      text-align: center
+      text-transform: uppercase
+      display: inline-block
+      line-height: 2.25em
+      padding: 0 1rem
+
+      &.negative, &.valid
+        color: $cl-negative
+        border-color: $cl-negative
+
+      &.moderate
+        color: $cl-moderate
+        border-color: $cl-moderate
+
+      &.positive
+        color: $cl-positive
+        border-color: $cl-positive
+
+    tfoot
+      select
+        max-width: 150px
+        min-width: 100px
+        font-weight: 400
+        background: $extra-light-gray
+        margin: 0 5px
+        border: solid 1px rgba(49, 49, 49, 0.09)
+
+      tr > th
+        padding: 4rem 0 1rem
+        font-size: 14px
+        border-bottom: 2px solid $dark-gray
+        border-top: none
+        text-align: center
+        color: $gray
+
+    tbody tr > td a.detail
+      display: block
+      width: 30px
+      height: 35px
+      position: relative
+      color: $secondary
+
+  .dataTables_info
+    display: none
+
+  .dataTables_paginate
+    padding: 2rem 0
+    width: 100%
+
+  .details ul
+    margin: 0
+    padding: 0
+    list-style: none
+
+    > li
+      width: 100%
+      display: inline-block
+      vertical-align: top
+      margin: 1rem 0
+
+      span
+        display: inline-block
+        vertical-align: top
+        font-size: 14px
+        line-height: 1.71
+        color: $dark-gray
+        padding: 0
+        margin: 0
+        text-align: left
+
+        &.label
+          font-weight: 700
+          max-width: 190px
+          width: 100%
+
+        &.value
+          max-width: 225px
+
+        &.classification
+          border: 1px solid $dark-gray
+          color: $dark-gray
+          border-radius: 0.5rem
+          text-align: center
+          text-transform: uppercase
+          display: inline-block
+          padding: 0 1rem
+
+          &.negative
+            color: $cl-negative
+            border-color: $cl-negative
+
+          &.moderate
+            color: $cl-moderate
+            border-color: $cl-moderate
+
+          &.positive
+            color: $cl-positive
+            border-color: $cl-positive
+
+.print a
+  color: $secondary
+
+div.dataTables_filter
+  width: 100%
+  position: relative
+
+  label
+    width: 100%
+
+  input
+    text-indent: 30px
+    width: 80%
+
+    &.input-sm
+      width: 57% !important
+      float: right
+      font-size: 100%
+
+      &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &:-moz-placeholder
+        color: $light-gray
+
+.dataTable tfoot
+  display: table-row-group
+
+table.table.dataTable tfoot tr > th
+  padding-top: 0
+
+.graph-data
+  margin-bottom: 4rem
+  border-bottom: 1px solid $light-gray
+
+.graph-results
+  margin-top: 2rem
+
+.pagination >
+  li > a
+    color: $gray
+    border: 1px solid $extra-light-gray
+
+  .active > a
+    background-color: $primary
+    border-color: $extra-light-gray
+
+.login-logo
+  width: 50%
+  margin: 0 auto
+
+#server-animation
+  cursor: help
+  letter-spacing: 0.3em
+  display: inline
+  padding: 10px 0px 3px 9px
+  background-color: $extra-dark-gray
+  width: max-content
+
+  .server-type
+    background: url("/static/img/animated_server.png") repeat-y
+    -webkit-text-fill-color: transparent
+    -webkit-animation: aitf 80s linear infinite
+    background-clip: text
+    -webkit-background-clip: text
+    border-radius: 0
+    box-shadow: none
+
+
+// Animate Background Image
+@-webkit-keyframes aitf
+  0%
+    background-position: 0% 0%
+  100%
+    background-position: 100% 50%
+
+.text-styling
+  background-color: $extra-dark-gray
+  color: #fff
+  line-height: normal
+  padding: 10px 0px 3px 2px
+
+.desktop-server-text
+  display: inline-block
+  visibility: hidden
+  white-space: nowrap
+  width: 0
+  text-align: center
+  transition: width 0.5s
+
+.mobile-server-text
+  display: none
+  white-space: normal
+  text-align: left
+  visibility: visible
+
+@media only screen and (min-width: 1151px)
+  #server-animation:hover + .desktop-server-text
+    visibility: visible
+    width: calc(100vw - 125px)
+
+  .mobile-server-text
+    display: none !important
+
+.eula
+  visibility: hidden
+
+.eula-detail
+
+  .details-box
+    margin: 10px
+
+  .action-column
+    text-align: right
+
+  .eula-files-area
+    padding-top: 15px
+
+  .table
+    margin-left: 10px
+    margin-bottom: 20px
+
+.button-icons
+  vertical-align: middle
+
+.spaced-row
+  margin-top: 20px
+
+.error, .errorlist
+  color: red
+
+.chevron
+  -webkit-transform: rotate(270deg)
+  -moz-transform: rotate(270deg)
+  -ms-transform: rotate(270deg)
+  -o-transform: rotate(270deg)
+  transform: rotate(270deg)
+  border-color: #C0C0C0 transparent transparent
+  border-style: solid dashed dashed
+  border-width: 5px 5px 0
+  display: inline-block
+  font-size: 0
+  height: 0
+  line-height: 0
+  padding-top: 1px
+  margin: 0 4px 0 4px
+  position: relative
+  top: -1px
+  width: 0

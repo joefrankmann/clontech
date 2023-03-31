@@ -1,0 +1,72 @@
+{% extends "ndx/base.html" %}
+{% load pipeline result ndx_ui ndx_map %}
+
+{% block content %}
+<!-- <div class="print">
+  <a href="{{result.get_pdf_url}}">
+    <span class="material-icons" aria-hidden="true">&#xE415;</span>
+    <span class="sr-only">download as PDF</span>
+  </a>
+</div> -->
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 details">
+    <ul>
+      <li><span class="label">{% field_title 'created_at' %}:</span><span class="value">{{feedback.created_at}}</span></li>
+      {% if feedback.uploader_email%}
+      <li><span class="label">{% field_title 'uploader_email' %}:</span>
+        <span class="value">
+          {% if perms.ndx_auth.view_user_data %}{{feedback.uploader_email}}
+          {% else %}N/A
+          {% endif %}
+        </span>
+      </li>
+      {% endif %}
+      {% if feedback.device_os and feedback.device_make and feedback.device_model %}
+        <li>
+          <span class="label">Device:</span>
+          <span class="value">{{feedback.device_os}} {{feedback.device_make}} {{feedback.device_model}}</span>
+        </li>
+      {% endif %}
+      {% if feedback.reader %}
+      <li>
+        {# reader_version will show as empty string if not provided #}
+        <span class="label">Reader:</span><span class="value">{{feedback.reader}}</span>
+      </li>
+      {% endif %}
+      {% if feedback.app_version %}
+        <li><span class="label">{% field_title 'app_version' %}:</span><span class="value">{{feedback.app_version}}</span></li>
+      {% endif %}
+      {% if feedback.device_id %}
+        <li>
+          <span class="label">{% field_title 'device_id' %}:</span>
+          <span class="value">
+            {% if perms.ndx_auth.view_user_data %}{{feedback.device_id|default:"N/A"}}
+            {% else %}N/A
+            {% endif %}
+          </span>
+        </li>
+      {% endif %}
+      {% if feedback.rating %}
+      <li>
+        <span class="label">{% field_title 'rating' %}</span>
+        <span class="value">{{ feedback.rating }}</span>
+      </li>
+      {% endif %}
+      {% if feedback.comments %}
+      <li>
+        <span class="label">{% field_title 'comments' %}</span>
+        <span class="value">{{ feedback.comments }}</span>
+      </li>
+      {% endif %}
+      <li>
+        <span class="label">{% field_title 'follow_up' %}</span>
+        <span class="value">{% if feedback.follow_up %}yes{%else%}no{%endif%}</span>
+      </li>
+      </ul>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+{{block.super}}
+{% endblock %}

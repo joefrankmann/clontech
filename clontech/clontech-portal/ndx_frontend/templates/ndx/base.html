@@ -1,0 +1,99 @@
+{% extends "ndx/_base.html" %}
+{% load static pipeline %}
+{% load active_link %}
+{% load tz_detect %}
+
+{% block css %}
+  {% stylesheet 'main' %}
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+{% block body %}
+  <div id="body-wrapper">
+    <header>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="material-icons" aria-hidden="true">person</span>
+            </button>
+            <a class="navbar-brand" href="/">
+              <img class="logo" alt="logo" src="{% static site_logo.filename %}" />
+            </a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="{% active_link 'ndx_result:results' %}">
+                <a href="/"><span class="material-icons" aria-hidden="true">home</span>Home</a>
+              </li>
+              <li class="{% active_link 'ndx_auth:user' param=request.user.id %}">
+                <a href="{{request.user.get_absolute_url}}">
+                  <span class="material-icons" aria-hidden="true">&#xE853;</span>
+                  Profile
+                </a>
+              </li>
+              {% if perms.ndx_auth.view_all_users %}
+              <li class="{% active_link 'ndx_auth:users' %}">
+                <a href="{% url 'ndx_auth:users' %}">
+                  <span class="material-icons" aria-hidden="true">group</span>
+                  Users
+                </a>
+              </li>
+              {% endif %}
+              {% if perms.ndx_batch.change_batch %}
+              <li class="{% active_link 'ndx_batch:batches' %}">
+                <a href="{% url 'ndx_batch:batches' %}">
+                  <span class="material-icons" aria-hidden="true">assignment</span>
+                  Batches
+                </a>
+              </li>
+              {% endif %}
+              {% if perms.ndx_eula.change_eula %}
+              <li class="{% active_link 'ndx_eula:eulas' %}">
+                <a href="{% url 'ndx_eula:eulas' %}">
+                  <span class="material-icons" aria-hidden="true">dvr</span>
+                  EULAs
+                </a>
+              </li>
+              {% endif %}
+              {% if perms.ndx_feedback.view_feedback %}
+              <li class="{% active_link 'ndx_feedback:feedback' %}">
+                <a href="{% url 'ndx_feedback:feedback' %}">
+                  <span class="material-icons" aria-hidden="true">thumb_up</span>
+                  Feedback
+                </a>
+              </li>
+              {% endif %}
+              {% if request.user.is_superuser %}
+              <li class="{% active_link 'ndx_audit_log:audit-logs' %}">
+                <a href="{% url 'ndx_audit_log:audit-logs' %}">
+                  <span class="material-icons" aria-hidden="true">list</span>
+                  Audit log
+                </a>
+              </li>
+              {% endif %}
+              <li class="logout">
+                <a href="{% url 'ndx_auth:logout' %}">
+                  <span class="material-icons">&#xE879;</span>
+                  Log out
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div id="content" class="container">
+      {% include "ndx/breadcrumbs.html" %}
+      <h1>{{page_title}}{% block additional_title %}{% endblock %}</h1>
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  {% block js %}
+    {% javascript 'main' %}
+    {% tz_detect %}
+  {% endblock js %}
+{% endblock body %}

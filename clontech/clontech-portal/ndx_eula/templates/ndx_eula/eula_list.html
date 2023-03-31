@@ -1,0 +1,37 @@
+{% extends "ndx/base.html" %}
+{% load ndx_ui eula  %}
+
+{% block content %}
+<div class="row">
+  <div class="col-xs-12">
+    <a class="btn btn-default" href="{% url 'ndx_eula:eula-create' %}">Create EULA</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="sr-only">Status</th>
+          <th><!-- actions --></th>
+          <th>Active</th>
+          <th>Valid from</th>
+          <th>Languages</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for eula in eulas %}
+        <tr class="{% eula_classes eula %}">
+          <td class="sr-only">
+            {{ eula.status }}
+            {% if eula.is_valid_from_in_future %}(future){% endif %}
+          </td>
+          <td>
+            <a href="{{eula.get_absolute_url}}">{% glyphicon "zoom-in" "link to eula details" %}</a>
+          </td>
+          <td>{% if eula.is_active %}☑{% else %}☐{% endif %}</td>
+          <td {% if eula.is_valid_from_in_future %}class="text-warning"{% endif %}>{{eula.valid_from}}</td>
+          <td>{{ eula.locales|join:", " }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends "ndx/base.html" %}
+{% load ndx_ui eula pipeline  %}
+
+{% block content %}
+<div class="row-xs-12">
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="col-xs-12">
+      {{form.as_p}}
+      <p id="form-errors" class="error"></p>
+    </div>
+    <input class="btn btn-default" type="submit" value="Save">
+  </form>
+</div>
+{% endblock content %}
+
+{% block js %}
+  {{block.super}}
+  {% javascript "eula_size_validation" %}
+{% endblock js %}

@@ -1,0 +1,1 @@
+This is a custom app from clontech before sourcification and is different to portal apps ndx_batch.

@@ -1,0 +1,34 @@
+{% extends "ndx/base.html" %}
+{% load auth %}
+{% load static pipeline %}
+
+{% block css %}
+  {{block.super}}
+  {% stylesheet "errorlist" %}
+{% endblock css %}
+
+{% block content %}
+{% if form.non_field_errors %}
+  <div class="alert alert-warning">
+    Please check the following errors:
+    {{form.non_field_errors}}
+  </div>
+{% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <span class="bg-warning">{{ form.email.errors }}</span>
+    {% form_group form.email %}
+    <span class="bg-warning">{{ form.name.errors }}</span>
+    {% form_group form.name %}
+    {% if form.user_type %}
+      <span class="bg-warning">{{ form.user_type.errors }}</span>
+      {% form_group form.user_type %}
+    {% endif %}
+    {% if form.feedback_emails and perms.ndx_auth.change_feedback_emails %}
+      <span class="bg-warning">{{ form.feedback_emails.errors }}</span>
+      {% form_group form.feedback_emails %}
+    {% endif %}
+    <input class="btn btn-default" type="submit" value="Submit"/>
+  </form>
+{% endblock content %}

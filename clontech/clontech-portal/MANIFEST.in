@@ -1,0 +1,9 @@
+include package-lock.json package.json README.md requirements.txt
+graft contrib
+graft clontech_portal/static
+graft clontech_portal/templates
+graft clontech_result/static
+graft clontech_result/templates
+graft ndx_batch/templates
+graft ndx_eula/templates
+graft testing/envdir

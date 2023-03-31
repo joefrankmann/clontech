@@ -1,0 +1,37 @@
+{
+  "results": [
+    {
+      "Interpretations": [
+        {
+          "Colour": "#66cc66",
+          "Name": "HRes",
+          "Classification": "Negative"
+        }
+      ],
+      "TestStrips": [{
+          "Profile": [195.434982],
+          "TLines": [{
+              "TPeakPosition": 1,
+              "TScore": 10.74224853515625
+          }],
+          "CLine": {
+            "CPeakPosition": 1,
+            "CScore": 36.141326904296875
+          },
+          "Baseline": [221.268021]
+      }],
+      "DeviceOS":"10.2",
+      "DeviceModel":"iPhone9,3",
+      "IsPending":false,
+      "GeolocationLatitude":"29.660962664905",
+      "ReaderAnalysisType":"PolynomialBaseline",
+      "AppVersion":"0.2.2.8",
+      "Timestamp":"2017-01-20T10:54:21.763199-06:00",
+      "ReaderType":"Novarum",
+      "DeviceID":"b6d143af-d733-45f3-ad83-1694012d2fc6",
+      "UniqueId": "[\"b6d143af-d733-45f3-ad83-1694012d2fc6\",\"reactor 3\",\"3z\",\"91\",\"3001\"]",
+      "DeviceMake":"Apple",
+      "GeolocationLongitude":"-95.5654470585879"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+default_app_config = 'ndx_feedback.apps.NdxFeedbackConfig'

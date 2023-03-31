@@ -1,0 +1,73 @@
+{% extends "ndx/base.html" %}
+{% load ndx_date ndx_ui batch  %}
+
+{% block content %}
+<div class="row">
+  <div class="col-xs-12">
+    <a class="btn btn-default" href="{% url 'ndx_batch:batch-create' %}">Create Batch</a>
+    <br/>
+    <br/>
+    <table class="table data-table"
+      data-order='[[2, "asc"]]'
+      data-page-length="25"
+      data-column-defs='[{"orderable": false, "targets": ["status-column", "action-column", "datamatrix-column"]}]'>
+      <thead>
+        <tr>
+          <th class="status-column sr-only" data-allow-filter="false" data-allow-order="false">Status</th>
+          <th class="action-column" data-allow-filter="false"><!-- actions --></th>
+          <th>Active</th>
+          <th>Assay type</th>
+          <th>Lot No.</th>
+          <th>Valid from</th>
+          <th>Expires</th>
+          <th class="datamatrix-column" data-allow-filter="false">Data Matrix</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th class="status-column sr-only" data-allow-filter="false" data-allow-sort="false">Status</th>
+          <th class="action-column" data-allow-filter="false"><!-- actions --></th>
+          <th>Active</th>
+          <th>Assay type</th>
+          <th data-allow-filter="false">Lot No.</th>
+          <th>Valid from</th>
+          <th>Expires</th>
+          <th class="datamatrix-column" data-allow-filter="false">Data Matrix</th>
+        </tr>
+      </tfoot>
+      <tbody>
+        {% for batch in batches %}
+        <tr class="{% batch_classes batch %}">
+          <td class="sr-only">
+            {{ batch.status }}
+            {% if batch.is_valid_from_in_future %}(future){% endif %}
+          </td>
+          <td>
+            <a href="{{batch.get_absolute_url}}" target="_blank">{% glyphicon "zoom-in" "link to batch details" %}</a>
+          </td>
+          <td data-filter="{{batch.display_as_active}}" data-order="{{batch.display_as_active}}">{% if batch.display_as_active %}☑{% else %}☐{% endif %}</td>
+          <td>{{batch.assay_type}}</td>
+          <td>{{batch.lot_no}}</td>
+          <td data-filter="{{batch.valid_from|datequarter}}"
+            data-order="{{batch.valid_from.isoformat}}"
+            {% if batch.is_valid_from_in_future %}class="text-warning"{% endif %}>
+            {{batch.valid_from}}
+          </td>
+          <td data-filter="{{batch.expires|datequarter}}"
+            data-order="{{batch.expires.isoformat}}"
+            {% if batch.is_expired %}class="text-muted"{% endif %}>
+            {{batch.expires}}
+          </td>
+          <td>
+            {% if batch.data_matrix %}
+              <img alt="Lot number data matrix" src="{{batch.data_matrix.url}}"
+                width="{{batch.data_matrix_width}}" height="{{batch.data_matrix_height}}" />
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends "ndx/base.html" %}
+{% load ndx_date ndx_ui pipeline %}
+{% block results_link %}{% endblock results_link %}
+
+
+{% block content %}
+<div class="row">
+
+  <div class="col-xs-12">
+    <table class="table data-table"
+      data-order='[[0, "desc"]]'
+      data-page-length="25"
+      data-server-side="true"
+      data-columns='[
+        {"data": "created_at", "name": "created_at", "searchable": false},
+        {"data": "uploader_email", "name": "uploader_email"},
+        {"data": "device_id", "name": "device_id"},
+        {"data": "rating", "name": "rating", "orderable": false},
+        {"data": "follow_up", "name": "follow_up", "orderable": false},
+        {"data": "action", "orderable": false}
+        ]'
+      >
+      <thead>
+        <tr>
+          <th data-allow-filter="false">Created At</th>
+          <th>Uploader Email</th>
+          <th>Device ID</th>
+          <th>Rating</th>
+          <th>Follow Up</th>
+          <th class="action-column" data-allow-filter="false"></th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Created At</th>
+          <th>Uploader Email</th>
+          <th>Device ID</th>
+          <th>Rating</th>
+          <th>Follow Up</th>
+          <th class="action-column" data-allow-filter="false"></th>
+        </tr>
+      </tfoot>
+      <tbody>
+      </tbody>
+    </table>
+    <div class="col-xs-12 text-right">
+      <button class="btn btn-default feedback-csv-button" 
+          id = "feedback-csv-button" 
+          data-url="{% url 'ndx_feedback_api:feedback_csv' %}"                                                   
+          data-csrf-token="{{csrf_token}}">
+        <span class="material-icons button-icons">&#xE2C4;</span>
+        <span class="button-text">Download CSV</span>
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block js %}
+  {{block.super}}
+  {% javascript "feedback_csv_export" %}
+{% endblock js %}

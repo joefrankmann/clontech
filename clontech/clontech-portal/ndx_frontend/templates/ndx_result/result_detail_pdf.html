@@ -1,0 +1,128 @@
+{% extends "ndx/_base.html" %}
+{% load static ndx_ui result %}
+
+{% block css %}
+<style>
+a {
+  color: inherit;
+  text-decoration: underline; }
+
+ul {
+  display: table; }
+  ul li {
+    display: table-row; }
+    ul li span {
+      display: table-cell; }
+      ul li span.label {
+        font-weight: bold; }
+      ul li span.value {
+        font-size: small;
+        padding-left: 1.5em; }
+</style>
+{% endblock css %}
+
+{% block body %}
+<h1><a href="{{result.get_absolute_url}}">Result {{result.pk}}</a></h1>
+<ul>
+  <li><span class="label">{% field_title 'created_at' %}:</span><span class="value">{{result.created_at}}</span></li>
+  <li>
+    <span class="label">{% field_title 'created_by' %}:</span>
+    {% if perms.ndx_auth.view_user_data %}
+    <span class="value">{{result.uploader_email}}</span>
+    {% else %}
+    <span class="value">N/A</span>
+    {% endif %}
+  </li>
+  {% if result.device_os or result.device_make or result.device_model %}
+  <li>
+    <span class="label">Device:</span>
+    <span class="value">{{result.device_os}} {{result.device_make}} {{result.get_device_name}}</span>
+  </li>
+  {% endif %}
+  {% if result.reader_type or result.reader_version %}
+  <li>
+    <span class="label">Reader:</span></span><span class="value">{{result.reader_type}} {{result.reader_version}}</span>
+  </li>
+  {% endif %}
+  {% if result.analysis_type %}
+  <li><span class="label">{% field_title 'analysis_type' %}:</span><span class="value">{{result.analysis_type}}</span></li>
+  {% endif %}
+  <li><span class="label">{% field_title 'interpretation' %}:</span><span class="value">{{result.overall_outcome}}</span></li>
+  {% if result.app_version %}
+  <li><span class="label">{% field_title 'app_version' %}:</span><span class="value">{{result.app_version}}</span></li>
+  {% endif %}
+  {% if result.device_id %}
+  <li>
+    <span class="label">{% field_title 'device_id' %}:</span>
+    {% if perms.ndx_auth.view_user_data %}
+    <span class="value">{{result.device_id|default:"N/A"}}</span>
+    {% else %}
+    <span class="value">N/A</span>
+    {% endif %}
+  </li>
+  {% endif %}
+  <li><span class="label">{% field_title 'batch' %}:</span><span class="value">{{result.batch|default:"N/A"}}</span></li>
+  {% if result.first_occurrence_of_yellow_time is not None %}
+  <li><span class="label">{% field_title 'first_occurrence_of_yellow_time' %}:</span>
+    <span class="value">{{result.first_occurrence_of_yellow_time}}</span></li>
+  {% endif %}
+  {% if result.first_occurrence_of_green_time is not None %}
+  <li><span class="label">{% field_title 'first_occurrence_of_green_time' %}:</span>
+    <span class="value">{{result.first_occurrence_of_green_time}}</span></li>
+  {% endif %}
+  {% if result.transition_to_result_time is not None %}
+  <li><span class="label">{% field_title 'transition_to_result_time' %}:</span>
+    <span class="value">{{result.transition_to_result_time}}</span></li>
+  {% endif %}
+  {% if result.average_iteration_time is not None %}
+  <li><span class="label">{% field_title 'average_iteration_time' %}:</span>
+    <span class="value">{{result.average_iteration_time}}</span></li>
+  {% endif %}
+  {% if result.dilution %}
+  <li><span class="label">{% field_title 'dilution' %}:</span><span class="value">{{result.dilution}}</span></li>
+  {% endif %}
+  {% if result.sample_name %}
+  <li><span class="label">{% field_title 'sample_name' %}:</span><span class="value">{{result.sample_name}}</span></li>
+  {% endif %}
+  <li><span class="label">{% field_title 'gostix_value' %}:</span><span class="value">{% go_stix_value result.gostix_value|floatformat:3 result.interpretation %}</span></li>
+  {% if result.assay_type %}
+  <li><span class="label">{% field_title 'assay_type' %}:</span><span class="value">{{result.assay_type}}</span></li>
+  {% endif %}
+  {% if result.unit %}
+  <li><span class="label">Units:</span><span class="value">{{result.unit}}</span></li>
+  {% endif %}
+  {% if result.geo_location %}
+  <li><span class="label">Location:</span><span class="value">{{result.geo_location}}</span></li>
+  {% endif %}
+</ul>
+
+{% for teststrip in result.teststrips.all %}
+<h2>Teststrip data</h2>
+<ul>
+  <li>
+    <span class="label">Testline Peak Position:</span>
+    <span class="value">{{teststrip.tlines.first.peak_position}}</span>
+  </li>
+  <li>
+    <span class="label">Testline Score:</span>
+    <span class="value">{{teststrip.tlines.first.score|floatformat:3}}</span>
+  </li>
+  <li>
+    <span class="label">{% field_title 'cline_peak_position' obj=teststrip %}:</span>
+    <span class="value">{{teststrip.cline_peak_position}}</span>
+  </li>
+  <li>
+    <span class="label">{% field_title 'cline_score' obj=teststrip %}:</span>
+    <span class="value">{{teststrip.cline_score|floatformat:3}}</span>
+  </li>
+  <li>
+    <span class="label">T/C Ratio:</span>
+    <span class="value">{{teststrip.tlines.first.t_c_ratio|floatformat:3}}</span>
+  </li>
+</ul>
+{% if result.notes %}
+  <h2>Notes</h2>
+  <p style="margin-left: 40px">{{result.notes}}</p>
+{% endif %}
+{% endfor %}
+{% endblock body %}

@@ -1,0 +1,13 @@
+{
+    "uploader_email": "tester@test.com",
+    "device_os": "1.0.0",
+    "device_make": "huawei",
+    "device_model": "p20",
+    "device_id": "123456",
+    "app_version": "1.0.0",
+    "reader_type": "test",
+    "reader_version": "1.0.0",
+    "rating": "good",
+    "follow_up": true,
+    "comments": "I love this app."
+}

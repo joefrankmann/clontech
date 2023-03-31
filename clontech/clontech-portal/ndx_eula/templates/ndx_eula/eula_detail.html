@@ -1,0 +1,50 @@
+{% extends "ndx/base.html" %}
+{% load ndx_ui eula pipeline  %}
+
+{% block content %}
+{% for message in messages %}
+  <span class="alert-success">{{message}}</span>
+{% endfor %}
+<div class="row eula-detail">
+  <div class="col-xs-8">
+    <div class="details-box">
+      <p>
+        <label for="valid_from">Valid from:</label>
+        <span>{{ eula.valid_from }}</span> 
+      </p>
+      <p>
+        <label for="is_active">Is Active:</label>
+        <span>{{ eula.is_active }}</span> 
+      </p>
+    </div>
+    <a class="btn btn-default" href="{% url 'ndx_eula:eula-edit' eula.id %}">Edit details</a>
+  </div>
+  <div class="col-xs-8">
+    <div class="eula-files-area">
+      <h2>Language files</h2>
+        <table class="table" id="file_forms_table">
+          <thead>            
+            <th>Language code</th>
+            <th>File</th>
+            <th class="action-column">Actions</th>
+          </thead>
+          {% for eula_file in eula.eula_files.all %}
+            <tr>
+              <td>{{ eula_file.locale }}</td>
+              {% if eula_file.eula_file %}
+                <td><a target="blank" href="{{ eula_file.eula_file.url }}"> {{eula_file.eula_file}}</a></td>
+              {% else %}
+                <td>None</td>
+              {% endif %}
+              <td class="action-column">
+                <a class="btn btn-small" href="{% url 'ndx_eula:eula-file-edit' eula_file.pk %}">Edit</a>
+                <a class="btn btn-small" href="{% url 'ndx_eula:eula-file-delete' eula_file.id %}">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+      </table>
+      <a class="btn btn-default" href="{% url 'ndx_eula:eula-add-language' eula.id %}">Add language file</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

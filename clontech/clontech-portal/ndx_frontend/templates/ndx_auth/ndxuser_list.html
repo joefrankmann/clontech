@@ -1,0 +1,47 @@
+{% extends "ndx/base.html" %}
+{% load pipeline auth %}
+
+{% block content %}
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table data-table"
+      data-order='[[2, "desc"], [0, "asc"]]'
+      data-page-length="25">
+      <thead>
+        <tr>
+          <th data-allow-filter="false">Name</th>
+          <th data-allow-filter="false">Email address</th>
+          <th>Group</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Name</th>
+          <th>Email address</th>
+          <th>Group</th>
+        </tr>
+      </tfoot>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td data-order="{{user.name}}" data-search="{{user.name}}">
+            <a href="{{user.get_absolute_url}}">{{user.name}}</a>
+          </td>
+          <td data-search="{{user.email}}">
+            <a href="mailto:{{user.email}}">{{user.email}}</a>
+          </td>
+          <td >
+            {{ user.user_type }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% if perms.ndx_auth.change_ndxuser %}
+  <div class="action-buttons">
+    <a class="btn btn-default" href="{% url 'ndx_auth:users-user-create' %}">Create user</a>
+  </div>
+{% endif %}
+{% endblock content %}
